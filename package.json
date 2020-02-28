@@ -1,0 +1,50 @@
+{
+  "name": "console-logger",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "webpack --progress",
+    "build:watch": "npm run build -- --watch",
+    "eslint": "eslint \"./src/*.js\"",
+    "test": "jest",
+    "test:watch": "jest --watchAll --collectCoverage=false"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/plugin-proposal-object-rest-spread": "^7.4.3",
+    "@babel/plugin-transform-runtime": "^7.8.3",
+    "@babel/preset-env": "^7.2.0",
+    "@commitlint/cli": "^8.3.5",
+    "@commitlint/config-conventional": "^8.3.4",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-eslint": "^10.0.1",
+    "babel-jest": "^24.9.0",
+    "babel-loader": "^8.0.5",
+    "clean-webpack-plugin": "^3.0.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-import-resolver-webpack": "^0.12.1",
+    "eslint-loader": "^3.0.3",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-jest": "^23.7.0",
+    "eslint-plugin-jsdoc": "^21.0.0",
+    "eslint-plugin-unicorn": "^16.1.1",
+    "husky": "^4.2.3",
+    "jest": "^24.9.0",
+    "jest-cli": "^24.9.0",
+    "jest-fetch-mock": "^2.1.2",
+    "webpack": "4.28.4",
+    "webpack-cli": "3.1.1",
+    "webpack-merge": "^4.2.2"
+  },
+  "dependencies": {
+    "@babel/polyfill": "^7.2.5",
+    "@babel/runtime": "^7.8.4",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "npm run eslint && npm run test"
+    }
+  }
+}

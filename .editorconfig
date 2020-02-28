@@ -1,0 +1,23 @@
+# EditorConfig is awesome: http://EditorConfig.org
+
+# Top-most EditorConfig file
+root = true
+
+# Unix-style newlines with a newline ending every file
+[*]
+charset = utf-8
+end_of_line = lf
+indent_size = 4
+indent_style = space
+insert_final_newline = true
+max_line_length = off
+trim_trailing_whitespace = true
+
+[CHANGELOG.md]
+indent_size = 0
+
+[*.json]
+indent_size = 2
+
+[*.{js, less, html}]
+indent_size = 4
