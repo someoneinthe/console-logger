@@ -95,7 +95,7 @@ const callbackBackend = async (
  * @param {string<loggerTypes>[]} [params.callbackLogLevels=[]] - Logger types to log to callback.
  * @param {string} [params.callbackUrl] - Callback url to send logs to.
  * @param {string} [params.callbackParamName] - Callback parameter name to send log to.
- * @param {boolean} [params.clearConsoleOnInit=true] - Clean console on logger init.
+ * @param {boolean} [params.isConsoleClearedOnInit=true] - Clean console on logger init.
  * @param {boolean} [params.willDoCallback=false] - True to callback logger information to.
  * @param {boolean} [params.willDisplayConsole=true] - True to use browser console logging.
  * @returns {Function} - Currying function.
@@ -105,12 +105,12 @@ export const loggerOutput = ({
     callbackLogLevels = [],
     callbackParamName = '',
     callbackUrl = '',
-    clearConsoleOnInit = true,
+    isConsoleClearedOnInit = true,
     willDoCallback = false,
     willDisplayConsole = true
 }) => {
     // Clean console on logger init
-    clearConsoleOnInit && window.console[loggerTypes.clear]();
+    isConsoleClearedOnInit && window.console[loggerTypes.clear]();
 
     /**
      * @description Apply a console method, and do a callback if necessary.
