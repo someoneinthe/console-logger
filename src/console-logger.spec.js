@@ -47,6 +47,11 @@ describe('console-logger file test', () => {
                 expect(window.console.log).toHaveBeenCalledWith('test');
             });
 
+            it('check console log with multiple messages', () => {
+                loggerOutput({})(loggerTypes.log, 'test', ['test'], {test: 'test'});
+                expect(window.console.log).toHaveBeenCalledWith('test', ['test'], {test: 'test'});
+            });
+
             it('check console trace', () => {
                 loggerOutput({})(loggerTypes.trace, {});
                 expect(window.console.trace).toHaveBeenCalledWith({});
@@ -72,6 +77,18 @@ describe('console-logger file test', () => {
                     callbackUrl: '/test',
                     willDoCallback: true
                 })(loggerTypes.log, {testKey: 'testValue'});
+
+                expect(fetch).toHaveBeenCalledWith('/test', expect.objectContaining({
+                    body: expect.stringContaining('testKey')
+                }));
+            });
+
+            it('check fetch callback with multiple messages log', () => {
+                loggerOutput({
+                    callbackLogLevels: [loggerTypes.log],
+                    callbackUrl: '/test',
+                    willDoCallback: true
+                })(loggerTypes.log, 'test', ['test'], {testKey: 'testValue'});
 
                 expect(fetch).toHaveBeenCalledWith('/test', expect.objectContaining({
                     body: expect.stringContaining('testKey')

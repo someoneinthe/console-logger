@@ -1,6 +1,17 @@
 {
-  "name": "console-logger",
-  "version": "1.0.0",
+  "name": "javascript-console-logger",
+  "version": "1.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/someoneinthe/console-logger.git"
+  },
+  "author": "Florian Casset",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/someoneinthe/console-logger/issues"
+  },
+  "homepage": "https://github.com/someoneinthe/console-logger/blob/master/README.md",
+  "keywords": ["logger", "es6", "javascript", "console"],
   "scripts": {
     "build": "webpack --progress",
     "build:watch": "npm run build -- --watch",
