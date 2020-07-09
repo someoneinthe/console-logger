@@ -36,7 +36,7 @@ describe('console-logger file test', () => {
             });
 
             it('check console clear not called', () => {
-                loggerOutput({clearConsoleOnInit: false});
+                loggerOutput({isConsoleClearedOnInit: false});
                 expect(window.console.clear).not.toHaveBeenCalled();
             });
         });
