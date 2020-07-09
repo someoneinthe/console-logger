@@ -28,19 +28,21 @@ const fetchHeadersConfig = {
 
 /**
  * @description Convert log information to string.
- * @param {any} logInformation - Log information to convert.
+ * @param {any[]} logInformationList - Log information to convert.
  * @returns {string} - Stringified information.
  */
-const getLogInformationString = logInformation => {
+const getLogInformationString = logInformationList => {
     let stringifiedLogInformation;
 
-    if(typeof logInformation === 'object') {
-        stringifiedLogInformation = JSON.stringify(logInformation);
-    } else {
-        stringifiedLogInformation = String(logInformation);
-    }
+    return logInformationList.map(logInformation => {
+        if(typeof logInformation === 'object') {
+            stringifiedLogInformation = JSON.stringify(logInformation);
+        } else {
+            stringifiedLogInformation = String(logInformation);
+        }
 
-    return stringifiedLogInformation;
+        return stringifiedLogInformation;
+    }).join(',\n');
 };
 
 /**
@@ -49,15 +51,15 @@ const getLogInformationString = logInformation => {
  * @param {string} params.callbackParamName - Name of the param to post.
  * @param {Error} params.errorStackTrace - The stackTrace to log.
  * @param {string<loggerTypes>} params.loggerType - Log type to send.
- * @param {any} params.logInformation - Information to send.
+ * @param {any[]} params.logInformationList - Information to send.
  * @returns {string} - Formatted body.
  */
 const getFetchBodyContent = ({
     callbackParamName,
     errorStackTrace,
     loggerType,
-    logInformation
-}) => JSON.stringify({[callbackParamName]: `${loggerType}:\n${getLogInformationString(logInformation)}\n${errorStackTrace.stack}`});
+    logInformationList
+}) => JSON.stringify({[callbackParamName]: `${loggerType}:\n${getLogInformationString(logInformationList)}\n${errorStackTrace.stack}`});
 
 /**
  * @description Send the log request to server.
@@ -66,7 +68,7 @@ const getFetchBodyContent = ({
  * @param {string} params.callbackParamName - Name of the param to post.
  * @param {string} params.callbackUrl - Url to call.
  * @param {string<loggerTypes>} params.loggerType - Log type to send.
- * @param {any} params.logInformation - Information to send.
+ * @param {any[]} params.logInformationList - Information to send.
  * @returns {Promise<void>} - The fetch request.
  */
 const callbackBackend = async (
@@ -75,14 +77,14 @@ const callbackBackend = async (
         callbackParamName,
         callbackUrl,
         loggerType,
-        logInformation
+        logInformationList
     }) => {
     const errorStackTrace = new Error();
 
     await fetch(callbackUrl, {
         ...fetchHeadersConfig,
         ...callbackHeaderConfig,
-        body: getFetchBodyContent({callbackParamName, errorStackTrace, loggerType, logInformation})
+        body: getFetchBodyContent({callbackParamName, errorStackTrace, loggerType, logInformationList})
     });
 };
 
@@ -115,9 +117,9 @@ export const loggerOutput = ({
      * @param {string<loggerTypes>} loggerType - Type of log to execute.
      * @param {any} logInformation - Log information to send / display.
      */
-    const loggerApply = (loggerType, logInformation) => {
+    const loggerApply = (loggerType, ...logInformation) => {
         // Display console output
-        willDisplayConsole && window.console[loggerType](logInformation);
+        willDisplayConsole && window.console[loggerType](...logInformation);
 
         // Callback to log server
         willDoCallback && callbackLogLevels.includes(loggerType) && callbackBackend({
@@ -125,8 +127,9 @@ export const loggerOutput = ({
             callbackParamName,
             callbackUrl,
             loggerType,
-            logInformation
+            logInformationList: [...logInformation]
         });
     };
+
     return loggerApply;
 };
